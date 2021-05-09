@@ -1,0 +1,18 @@
+os: linux
+language: cpp
+
+services:
+  - docker
+
+
+before_install:
+  - docker pull mosnamarek/arm32-toolchain:9
+
+before_script:
+  - docker run mosnamarek/arm32-toolchain:9 arm-none-eabi-cpp --version
+  - docker run mosnamarek/arm32-toolchain:9 make --version
+  - docker run mosnamarek/arm32-toolchain:9 cmake --version
+  - docker run mosnamarek/arm32-toolchain:9 git --version
+
+script:
+  - docker run --rm --privileged -v $(pwd):/work mosnamarek/arm32-toolchain:9 arm-none-eabi-cpp cpp/main.cpp -o main
